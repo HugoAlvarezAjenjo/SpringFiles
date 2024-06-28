@@ -1,33 +1,31 @@
 package es.hugoalvarezajenjo.photos.service;
 
 import es.hugoalvarezajenjo.photos.model.Photo;
+import es.hugoalvarezajenjo.photos.repository.PhotoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @Service
 public class PhotoService {
-    final List<Photo> photos;
+    final PhotoRepository photoRepository;
 
-    public PhotoService() {
-        this.photos = new LinkedList<>();
+    public PhotoService(@Autowired final PhotoRepository photoRepository) {
+        this.photoRepository = photoRepository;
     }
 
-    public List<Photo> get() {
-        return photos;
+    public Iterable<Photo> get() {
+        return this.photoRepository.findAll();
     }
 
-    public Photo get(final String id) {
-        return this.photos.stream().filter(photo -> photo.getId().equals(id)).findFirst().orElse(null);
+    public Photo get(final Integer id) {
+        return this.photoRepository.findById(id).orElse(null);
     }
 
-    public boolean delete(final String id) {
-        final Photo photo = this.get(id);
-        return this.photos.remove(photo);
+    public void delete(final Integer id) {
+        this.photoRepository.deleteById(id);
     }
 
     public void add(final Photo photo) {
-        this.photos.add(photo);
+        this.photoRepository.save(photo);
     }
 }

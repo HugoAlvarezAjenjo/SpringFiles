@@ -2,21 +2,20 @@ package es.hugoalvarezajenjo.photos.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotEmpty;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table("photos")
 public class Photo {
-    private String id;
+    @Id
+    private Integer id;
     @NotEmpty
     private String name;
+    private String contentType;
     @JsonIgnore
     private byte[] data;
-    private String contentType;
 
     public Photo() {
-    }
-
-    public Photo(final String id, final String name) {
-        this.id = id;
-        this.name = name;
     }
 
     public String getContentType() {
@@ -35,11 +34,10 @@ public class Photo {
         this.data = data;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
-
-    public void setId(final String id) {
+    public void setId(final Integer id) {
         this.id = id;
     }
 
